@@ -1,17 +1,37 @@
 <script lang="ts">
   import { getContext } from "svelte"
   import type { Writable } from "svelte/store"
+  import Vapi from "@vapi-ai/web"
+  // import { PUBLIC_VAPI_API_KEY } from "$env/static/public"
 
   let adminSection: Writable<string> = getContext("adminSection")
+  adminSection.set("settings")
+
+  let { data } = $props()
+  let { profile } = data
+
+  // let adminSection: Writable<string> = getContext("adminSection")
   adminSection.set("home")
+
+  $effect(() => {
+    const vapi = new Vapi("431d834a-a9f4-422b-ac70-c00be149714d")
+    const assistantOverrides = {
+      recordingEnabled: false,
+      variableValues: {
+        name: profile?.full_name || "",
+      },
+    }
+
+    vapi.start("ab4bb979-c91c-4354-ae9c-b69c21073eef", assistantOverrides)
+  })
 </script>
 
 <svelte:head>
   <title>Account</title>
 </svelte:head>
-
+{profile?.full_name}
 <h1 class="text-2xl font-bold mb-1">Dashboard</h1>
-<div class="alert alert-error max-w-lg mt-2">
+<!-- <div class="alert alert-error max-w-lg mt-2">
   <svg
     xmlns="http://www.w3.org/2000/svg"
     class="stroke-current shrink-0 h-6 w-6"
@@ -36,8 +56,8 @@
       demos.
     </div>
   </div>
-</div>
-
+</div> -->
+<!-- 
 <div class="my-6">
   <h1 class="text-xl font-bold mb-1">Users</h1>
   <div class="stats shadow stats-vertical sm:stats-horizontal sm:w-[420px]">
@@ -85,4 +105,4 @@
       <div class="stat-desc">↘︎ 1 (%7)</div>
     </div>
   </div>
-</div>
+</div> -->

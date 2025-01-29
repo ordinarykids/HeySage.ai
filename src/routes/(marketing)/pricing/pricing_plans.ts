@@ -3,7 +3,7 @@ export const defaultPlanId = "free"
 export const pricingPlans = [
   {
     id: "free",
-    name: "Free",
+    name: "Sage ",
     description: "A free plan to get you started!",
     price: "$0",
     priceIntervalName: "per month",
@@ -12,13 +12,12 @@ export const pricingPlans = [
   },
   {
     id: "pro",
-    name: "Pro",
-    description:
-      "A plan to test the purchase experience. Try buying this with the test credit card 4242424242424242.",
-    price: "$5",
+    name: "Sage Pro",
+    description: "For lots of conversations ",
+    price: "$20",
     priceIntervalName: "per month",
-    stripe_price_id: "price_1NkdZCHMjzZ8mGZnRSjUm4yA",
-    stripe_product_id: "prod_OXj1CcemGMWOlU",
+    stripe_price_id: "price_1QlbqoGbYMYqQNOiH7NVTjkh",
+    stripe_product_id: "prod_Revi7eFuZN3d7Z",
     features: [
       "Everything in Free",
       "Support us with fake money",
@@ -27,13 +26,13 @@ export const pricingPlans = [
   },
   {
     id: "enterprise",
-    name: "Enterprise",
+    name: "Sage Enterprise",
     description:
-      "A plan to test the upgrade experience. Try buying this with the test credit card 4242424242424242.",
-    price: "$15",
+      "For large companies looking for agents. Try buying this with the test credit card 4242424242424242.",
+    price: "$10000",
     priceIntervalName: "per month",
-    stripe_price_id: "price_1Nkda2HMjzZ8mGZn4sKvbDAV",
-    stripe_product_id: "prod_OXj20YNpHYOXi7",
+    stripe_price_id: "price_1QlbreGbYMYqQNOi2BEg9qe8",
+    stripe_product_id: "prod_Revje2uBYG8Vzu",
     features: [
       "Everything in Pro",
       "Try the 'upgrade plan' UX",
