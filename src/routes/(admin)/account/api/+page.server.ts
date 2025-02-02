@@ -1,7 +1,7 @@
 import { fail, redirect } from "@sveltejs/kit"
 import { sendAdminEmail, sendUserEmail } from "$lib/mailer"
 import { WebsiteBaseUrl } from "../../../../config"
-
+import { supabase } from "$lib/supabaseClient"
 export const actions = {
   toggleEmailSubscription: async ({ locals: { supabase, safeGetSession } }) => {
     const { session } = await safeGetSession()
@@ -336,5 +336,32 @@ export const actions = {
     } else {
       redirect(303, "/")
     }
+  },
+  saveMessage: async ({ request, locals: { supabase, safeGetSession } }) => {
+    console.log("request")
+    console.log(request.body)
+    const result = await supabase.from("conversations").insert({
+      transcript: request.transcript,
+      transcriptType: "user",
+      created_at: new Date(),
+      message: "{'name': 'Mordor'}",
+    })
+
+    console.log(result)
+
+    // const { session } = await safeGetSession()
+    // if (session) {
+    //   const result = await supabase.from("conversations").insert({
+    //     transcript: "Mordor",
+    //     transcriptType: "user",
+    //     created_at: new Date(),
+    //     updated_at: new Date(),
+    //   })
+
+    //   console.log("session " + result)
+    //   redirect(303, "/")
+    // } else {
+    //   redirect(303, "/")
+    // }
   },
 }

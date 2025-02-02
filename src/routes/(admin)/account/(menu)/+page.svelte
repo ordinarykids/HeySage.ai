@@ -1,5 +1,6 @@
 <script lang="ts">
   import { getContext } from "svelte"
+
   import type { Writable } from "svelte/store"
   import Vapi from "@vapi-ai/web"
   // import { PUBLIC_VAPI_API_KEY } from "$env/static/public"
@@ -13,8 +14,10 @@
   // let adminSection: Writable<string> = getContext("adminSection")
   adminSection.set("home")
 
+  let vapi: Vapi
+
   $effect(() => {
-    const vapi = new Vapi("431d834a-a9f4-422b-ac70-c00be149714d")
+    vapi = new Vapi("431d834a-a9f4-422b-ac70-c00be149714d")
     const assistantOverrides = {
       recordingEnabled: false,
       variableValues: {
@@ -23,13 +26,87 @@
     }
 
     vapi.start("ab4bb979-c91c-4354-ae9c-b69c21073eef", assistantOverrides)
+
+    const saveMessageToSupabaseOLD = async (message: any) => {
+      console.log("_______" + message.transcript)
+      const response = await fetch("/account/api?/saveMessage", {
+        method: "POST",
+        body: JSON.stringify(message),
+      })
+      console.log(response.body)
+    }
+
+    async function saveMessageToSupabase(message) {
+      const response = await fetch("/account/api/saveMessage", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          messages: {
+            transcript: message.transcript,
+            transcriptType: message.transcriptType,
+            created_at: new Date().toISOString(),
+            role: message.role,
+            message: message.message,
+          },
+        }),
+      })
+
+      const result = await response.json()
+      console.log(result)
+    }
+
+    vapi.on("message", (message) => {
+      " saveMessageToSupabase(message)"
+      if (message.transcriptType === "final") {
+        console.log(message)
+        saveMessageToSupabase(message)
+      }
+
+      if (message.type === "transcript" && message.transcriptType === "final") {
+        //saveMessage(message)
+      }
+    })
+
+    // // Function calls and transcripts will be sent via messages
+    // vapi.on("message", async (message) => {
+    //   console.log(message)
+    //   if (
+    //     message.transcriptType === "user" ||
+    //     message.transcriptType === "assistant"
+    //   ) {
+    //     saveMessageToSupabase()
+    //   }
+    // })
+
+    function stop() {
+      vapi.stop()
+    }
   })
+
+  function stopVapi() {
+    vapi.stop()
+  }
 </script>
 
 <svelte:head>
   <title>Account</title>
 </svelte:head>
 {profile?.full_name}
+
+<ul>
+  {#each data.conversations as conversation}asdas
+    <li>{conversation.transcript}</li>
+  {/each}
+</ul>
+
+<button
+  class="bottom-1 border-2 border-red-500 p-2"
+  onclick={() => {
+    stopVapi()
+  }}>Clicasdasdk me</button
+>
 <h1 class="text-2xl font-bold mb-1">Dashboard</h1>
 <!-- <div class="alert alert-error max-w-lg mt-2">
   <svg

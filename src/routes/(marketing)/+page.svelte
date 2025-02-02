@@ -28,25 +28,54 @@
   {@html jsonldScript}
 </svelte:head>
 
-<div class="hero min-h-[60vh]">
+<div class="hero min-h-[100vh] animate-gradient">
   <div class="hero-content py-12">
-    <div class="max-w-sm px-16">
-      <svg
-        width="178"
-        height="179"
-        viewBox="0 0 178 179"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
+    <div class=" px-16 text-center">
+      <!-- <img src="/huga.png" alt="Huga" class="pb-4 w-[300px]" /> -->
+
+      <span class="text-xl md:text-xl font-bold mb-3 md:mb-7 font-extralight"
+        >Sage - Early Access</span
       >
-        <circle cx="89.1029" cy="89.3546" r="88.7032" fill="black" />
-      </svg>
-      <span class="text-xl md:text-xl font-bold mb-3 md:mb-7 pb-1">Sage</span>
 
       <div class="mt-4">
-        <button class="btn btn-primary" on:click={handleConnectClick}>
+        <button class="btn btn-black" on:click={handleConnectClick}>
           Let's Talk
         </button>
       </div>
     </div>
   </div>
 </div>
+
+<style>
+  /* Define keyframes for the animated gradient */
+  @keyframes gradientShift {
+    0% {
+      background-position: 0% 50%;
+    }
+    25% {
+      background-position: 50% 0%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    75% {
+      background-position: 50% 100%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  /* Custom class to apply the gradient background and animation */
+  .animate-gradient {
+    /* Define the gradient with your chosen colors:
+       - Pink: #FFC0CB
+       - Baby Blue: #89CFF0
+       - Beige: #F5F5DC
+       - Natural (tan): #D2B48C
+    */
+    background: linear-gradient(45deg, #ffc0cb, #89cff0, #f5f5dc, #d2b48c);
+    background-size: 400% 400%;
+    animation: gradientShift 20s ease infinite;
+  }
+</style>
