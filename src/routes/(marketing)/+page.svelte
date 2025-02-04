@@ -28,21 +28,18 @@
   {@html jsonldScript}
 </svelte:head>
 
-<div class="hero min-h-[100vh] animate-gradient">
-  <div class="hero-content py-12">
-    <div class=" px-16 text-center">
-      <!-- <img src="/huga.png" alt="Huga" class="pb-4 w-[300px]" /> -->
+<div class="hero min-h-screen animate-gradient">
+  <div class="hero-content text-center">
+    <!-- <img src="/huga.png" alt="Huga" class="pb-4 w-[300px]" /> -->
 
-      <span class="text-xl md:text-xl font-bold mb-3 md:mb-7 font-extralight"
-        >Sage - Early Access</span
-      >
-
-      <div class="mt-4">
-        <button class="btn btn-black" on:click={handleConnectClick}>
-          Let's Talk
-        </button>
-      </div>
+    <div class="text-xl md:text-xl font-bold mb-3 md:mb-7 font-extralight">
+      Sage - Early Access
+      <button class="btn btn-black" on:click={handleConnectClick}>
+        Let's Talk
+      </button>
     </div>
+
+    <div class="mt-4"></div>
   </div>
 </div>
 

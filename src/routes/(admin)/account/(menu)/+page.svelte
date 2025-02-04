@@ -28,15 +28,16 @@
     vapi.start("ab4bb979-c91c-4354-ae9c-b69c21073eef", assistantOverrides)
 
     const saveMessageToSupabaseOLD = async (message: any) => {
-      console.log("_______" + message.transcript)
+      // console.log("_______" + message.transcript)
       const response = await fetch("/account/api?/saveMessage", {
         method: "POST",
         body: JSON.stringify(message),
       })
-      console.log(response.body)
+      // console.log(response.body)
     }
 
     async function saveMessageToSupabase(message) {
+      //console.log(profile)
       const response = await fetch("/account/api/saveMessage", {
         method: "POST",
         headers: {
@@ -48,19 +49,20 @@
             transcriptType: message.transcriptType,
             created_at: new Date().toISOString(),
             role: message.role,
-            message: message.message,
+            message: message,
+            userId: profile.id,
           },
         }),
       })
 
       const result = await response.json()
-      console.log(result)
+      //console.log(result)
     }
 
     vapi.on("message", (message) => {
       " saveMessageToSupabase(message)"
       if (message.transcriptType === "final") {
-        console.log(message)
+        //console.log(message)
         saveMessageToSupabase(message)
       }
 
@@ -95,11 +97,11 @@
 </svelte:head>
 {profile?.full_name}
 
-<ul>
-  {#each data.conversations as conversation}asdas
+<!-- <ul>
+  {#each data.conversations as conversation}
     <li>{conversation.transcript}</li>
   {/each}
-</ul>
+</ul> -->
 
 <button
   class="bottom-1 border-2 border-red-500 p-2"

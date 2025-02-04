@@ -9,7 +9,7 @@
   let { children }: Props = $props()
 </script>
 
-<div class="">
+<div class="overflow-hidden">
   {@render children?.()}
 </div>
 
