@@ -28,18 +28,48 @@
   {@html jsonldScript}
 </svelte:head>
 
-<div class="hero min-h-screen animate-gradient">
-  <div class="hero-content text-center">
-    <!-- <img src="/huga.png" alt="Huga" class="pb-4 w-[300px]" /> -->
+<div class="grid grid-cols-2 min-h-screen">
+  <!-- Right Column -->
+  <div
+    class=" animate-gradient flex items-center justify-center bg-gradient-to-br from-pink-300 via-blue-300 to-indigo-300"
+  >
+    <!-- Empty gradient background for aesthetic -->
+  </div>
 
-    <div class="text-xl md:text-xl font-bold mb-3 md:mb-7 font-extralight">
-      Sage - Early Access
-      <button class="btn btn-black" on:click={handleConnectClick}>
-        Let's Talk
-      </button>
+  <!-- Left Column -->
+  <div class="flex flex-col justify-center items-start p-12 bg-white">
+    <div class="max-w-md m-auto">
+      <div class="mb-4">
+        <div class="text-xl font-bold mb-2">
+          Hey, it’s Sage, how are you doing?
+        </div>
+        <p class="text-lg">
+          Glad you found your way here. So, here is the deal.
+        </p>
+      </div>
+      <p class="mb-8 text-lg">
+        I am here to help you discover your true path. It may lead to places you
+        never imagined or it may wind its way back to where you started.
+      </p>
+      <div class="flex space-x-4">
+        <button
+          class="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800"
+          on:click={handleConnectClick}
+        >
+          Let’s talk
+        </button>
+        <button
+          class="border border-gray-400 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-100"
+        >
+          Learn more
+        </button>
+      </div>
+      <p class="mt-4 text-sm text-gray-500">
+        By clicking Let’s talk, you agree to our
+        <a href="#" class="underline">Terms of Service</a> and
+        <a href="#" class="underline">Privacy Policy</a>.
+      </p>
     </div>
-
-    <div class="mt-4"></div>
   </div>
 </div>
 
@@ -71,7 +101,7 @@
        - Beige: #F5F5DC
        - Natural (tan): #D2B48C
     */
-    background: linear-gradient(45deg, #ffc0cb, #89cff0, #f5f5dc, #d2b48c);
+    background: linear-gradient(45deg, #ee9191, #fac2f1, #a6cdda, #92a8dc);
     background-size: 400% 400%;
     animation: gradientShift 20s ease infinite;
   }
