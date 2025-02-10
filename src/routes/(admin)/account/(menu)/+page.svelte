@@ -1,4 +1,25 @@
 <script lang="ts">
+  import { goto } from "$app/navigation"
+  import {
+    WebsiteName,
+    WebsiteBaseUrl,
+    WebsiteDescription,
+  } from "../../../../config"
+
+  const ldJson = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: WebsiteName,
+    url: WebsiteBaseUrl,
+  }
+  const jsonldScript = `<script type="application/ld+json">${
+    JSON.stringify(ldJson) + "<"
+  }/script>`
+
+  function handleConnectClick() {
+    goto("/account/")
+  }
+
   import { getContext } from "svelte"
 
   import type { Writable } from "svelte/store"
@@ -17,9 +38,30 @@
   let vapi: Vapi
 
   $effect(() => {
+    console.log(data.conversations)
+    //console.log("_______" + profile?.full_name)
+
+    let combinedTranscripts = data.conversations
+      .map((c) => c.transcript)
+      .reverse()
+      .join(" ")
+    console.log("Combined Transcripts:", combinedTranscripts)
+
     vapi = new Vapi("431d834a-a9f4-422b-ac70-c00be149714d")
     const assistantOverrides = {
-      recordingEnabled: false,
+      model: {
+        provider: "openai",
+        model: "gpt-3.5-turbo",
+        messages: [
+          {
+            role: "system",
+            content:
+              "Here are the last 50 messages from the user" +
+              combinedTranscripts,
+          },
+        ],
+      },
+      recordingEnabled: true,
       variableValues: {
         name: profile?.full_name || "",
       },
@@ -60,12 +102,9 @@
     }
 
     vapi.on("message", (message) => {
-      " saveMessageToSupabase(message)"
-      if (message.transcriptType === "final") {
-        //console.log(message)
-        saveMessageToSupabase(message)
-      }
+      saveMessageToSupabase(message)
 
+      console.log(message)
       if (message.type === "transcript" && message.transcriptType === "final") {
         //saveMessage(message)
       }
@@ -93,7 +132,8 @@
 </script>
 
 <svelte:head>
-  <title>Account</title>
+  <title>{WebsiteName}</title>
+  <meta name="description" content={WebsiteDescription} />
 </svelte:head>
 {profile?.full_name}
 
@@ -110,78 +150,90 @@
   }}>Clicasdasdk me</button
 >
 <h1 class="text-2xl font-bold mb-1">Dashboard</h1>
-<!-- <div class="alert alert-error max-w-lg mt-2">
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    class="stroke-current shrink-0 h-6 w-6"
-    fill="none"
-    viewBox="0 0 24 24"
-    ><path
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      stroke-width="2"
-      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-    /></svg
+
+<div class="min-h-screen w-full">
+  <!-- Desktop gradient background - hidden on mobile -->
+  <div
+    class="animate-gradient hidden md:block fixed inset-0 bg-gradient-to-br from-pink-200 via-blue-200 to-purple-200"
+  ></div>
+
+  <!-- Mobile header - only visible on mobile -->
+  <div class="md:hidden w-full h-2 bg-pink-200"></div>
+
+  <!-- Content container -->
+  <div
+    class="relative w-full md:w-1/2 px-6 md:px-0 md:ml-auto min-h-screen flex flex-col justify-center bg-white"
   >
-  <div>
-    <div class="font-bold">Demo Content</div>
-    <div class="my-2">
-      This page is just a placeholder. Replace this page with your app's content
-      and functionality.
-    </div>
-    <div class="my-2">
-      The <a href="/account/billing" class="link">billing</a> and
-      <a href="/account/settings" class="link">settings</a> pages are functional
-      demos.
-    </div>
-  </div>
-</div> -->
-<!-- 
-<div class="my-6">
-  <h1 class="text-xl font-bold mb-1">Users</h1>
-  <div class="stats shadow stats-vertical sm:stats-horizontal sm:w-[420px]">
-    <div class="stat place-items-center">
-      <div class="stat-title">Downloads</div>
-      <div class="stat-value">31K</div>
-      <div class="stat-desc">↗︎ 546 (2%)</div>
+    <!-- Wave icon -->
+    <div class="mb-8">
+      <img src="/wave.svg" alt="Wave" class="w-10 h-10 mx-auto mt-16" />
     </div>
 
-    <div class="stat place-items-center">
-      <div class="stat-title">Users</div>
-      <div class="stat-value text-secondary">4,200</div>
-      <div class="stat-desc">↗︎ 40 (2%)</div>
+    <div class="max-w-md m-auto">
+      <!-- Text content -->
+      <h1 class="text-2xl font-medium mb-4">
+        Hey, it's Sage, how are you doing?
+      </h1>
+
+      <p class="mb-4">Glad you found your way here. So, here is the deal.</p>
+
+      <p class="my-16">
+        I am here to help you discover the your true path. It may lead to places
+        you never imagined or it may wind it's way back to where you started.
+      </p>
+      <button
+        class="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800"
+        onclick={handleConnectClick}
+      >
+        Let's talk
+      </button>
+      <button
+        class="border border-gray-400 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-100"
+      >
+        Learn more
+      </button>
+
+      <!-- Footer text -->
+      <p class="text-sm text-gray-600 mt-16 w-36">
+        By clicking Let's talk, you agree to our
+        <a href="#" class="underline">Terms of Service</a>
+        and
+        <a href="#" class="underline">Privacy Policy</a>.
+      </p>
     </div>
   </div>
 </div>
-<div class="my-6">
-  <h1 class="text-xl font-bold mb-1">Accounts</h1>
-  <div class="stats shadow stats-vertical sm:stats-horizontal sm:w-[420px]">
-    <div class="stat place-items-center">
-      <div class="stat-title">New Registers</div>
-      <div class="stat-value">1,200</div>
-      <div class="stat-desc">↘︎ 90 (14%)</div>
-    </div>
 
-    <div class="stat place-items-center">
-      <div class="stat-title">Churned Accounts</div>
-      <div class="stat-value">42</div>
-      <div class="stat-desc">↘︎ 6 (12%)</div>
-    </div>
-  </div>
-</div>
-<div class="my-6">
-  <h1 class="text-xl font-bold mb-1">Revenue</h1>
-  <div class="stats shadow stats-vertical sm:stats-horizontal sm:w-[420px]">
-    <div class="stat place-items-center">
-      <div class="stat-title text-success">Revenue</div>
-      <div class="stat-value text-success">$4200</div>
-      <div class="stat-desc">↗︎ $180 (4%)</div>
-    </div>
+<style>
+  /* Define keyframes for the animated gradient */
+  @keyframes gradientShift {
+    0% {
+      background-position: 0% 50%;
+    }
+    25% {
+      background-position: 50% 0%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    75% {
+      background-position: 50% 100%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
 
-    <div class="stat place-items-center">
-      <div class="stat-title">New Subscribers</div>
-      <div class="stat-value">16</div>
-      <div class="stat-desc">↘︎ 1 (%7)</div>
-    </div>
-  </div>
-</div> -->
+  /* Custom class to apply the gradient background and animation */
+  .animate-gradient {
+    /* Define the gradient with your chosen colors:
+       - Pink: #FFC0CB
+       - Baby Blue: #89CFF0
+       - Beige: #F5F5DC
+       - Natural (tan): #D2B48C
+    */
+    background: linear-gradient(45deg, #ee9191, #fac2f1, #a6cdda, #92a8dc);
+    background-size: 400% 400%;
+    animation: gradientShift 20s ease infinite;
+  }
+</style>

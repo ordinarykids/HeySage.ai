@@ -28,45 +28,53 @@
   {@html jsonldScript}
 </svelte:head>
 
-<div class="grid grid-cols-2 min-h-screen">
-  <!-- Right Column -->
+<div class="min-h-screen w-full">
+  <!-- Desktop gradient background - hidden on mobile -->
   <div
-    class=" animate-gradient flex items-center justify-center bg-gradient-to-br from-pink-300 via-blue-300 to-indigo-300"
-  >
-    <!-- Empty gradient background for aesthetic -->
-  </div>
+    class="animate-gradient hidden md:block fixed inset-0 bg-gradient-to-br from-pink-200 via-blue-200 to-purple-200"
+  />
 
-  <!-- Left Column -->
-  <div class="flex flex-col justify-center items-start p-12 bg-white">
+  <!-- Mobile header - only visible on mobile -->
+  <div class="md:hidden w-full h-2 bg-pink-200" />
+
+  <!-- Content container -->
+  <div
+    class="relative w-full md:w-1/2 px-6 md:px-0 md:ml-auto min-h-screen flex flex-col justify-center bg-white"
+  >
+    <!-- Wave icon -->
+    <div class="mb-8">
+      <img src="/wave.svg" alt="Wave" class="w-10 h-10 mx-auto mt-16" />
+    </div>
+
     <div class="max-w-md m-auto">
-      <div class="mb-4">
-        <div class="text-xl font-bold mb-2">
-          Hey, it’s Sage, how are you doing?
-        </div>
-        <p class="text-lg">
-          Glad you found your way here. So, here is the deal.
-        </p>
-      </div>
-      <p class="mb-8 text-lg">
-        I am here to help you discover your true path. It may lead to places you
-        never imagined or it may wind its way back to where you started.
+      <!-- Text content -->
+      <h1 class="text-2xl font-medium mb-4">
+        Hey, it's Sage, how are you doing?
+      </h1>
+
+      <p class="mb-4">Glad you found your way here. So, here is the deal.</p>
+
+      <p class="my-16">
+        I am here to help you discover the your true path. It may lead to places
+        you never imagined or it may wind it's way back to where you started.
       </p>
-      <div class="flex space-x-4">
-        <button
-          class="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800"
-          on:click={handleConnectClick}
-        >
-          Let’s talk
-        </button>
-        <button
-          class="border border-gray-400 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-100"
-        >
-          Learn more
-        </button>
-      </div>
-      <p class="mt-4 text-sm text-gray-500">
-        By clicking Let’s talk, you agree to our
-        <a href="#" class="underline">Terms of Service</a> and
+      <button
+        class="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800"
+        on:click={handleConnectClick}
+      >
+        Let's talk
+      </button>
+      <button
+        class="border border-gray-400 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-100"
+      >
+        Learn more
+      </button>
+
+      <!-- Footer text -->
+      <p class="text-sm text-gray-600 mt-16 w-36">
+        By clicking Let's talk, you agree to our
+        <a href="#" class="underline">Terms of Service</a>
+        and
         <a href="#" class="underline">Privacy Policy</a>.
       </p>
     </div>

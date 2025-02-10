@@ -1,6 +1,6 @@
 /* File: src/routes/api/vapi-webhook/+server.js */
 import { json } from "@sveltejs/kit"
-
+import { createClient } from "@supabase/supabase-js"
 /**
  * This endpoint listens for POST requests, e.g. from a Vapi webhook.
  */
